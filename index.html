@@ -2,7 +2,21 @@
 <html>
 <body style="display:grid;place-items:center;height:100vh;margin:0">
 <script>
-document.write(Math.floor(Math.random() * 100) === 0 ? "YES" : "NO");
+const key = "ismycomputeronfire-refresh-count";
+let refreshCount = Number(localStorage.getItem(key) || 0) + 1;
+
+if (refreshCount === 10) {
+  document.write("WOW YOU REALLY NEED TO BE REASSURED ON THIS");
+  localStorage.setItem(key, refreshCount);
+} else {
+  document.write(Math.floor(Math.random() * 100) === 0 ? "YES" : "NO");
+
+  if (refreshCount >= 11) {
+    localStorage.setItem(key, 0);
+  } else {
+    localStorage.setItem(key, refreshCount);
+  }
+}
 </script>
 </body>
 </html>
