@@ -13,11 +13,17 @@
       --pink: #f2a8ff;
       --cream: #fbfaf7;
     }
-    * { box-sizing: border-box; }
-    html, body {
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
       width: 100%;
       min-height: 100%;
     }
+
     body {
       margin: 0;
       display: grid;
@@ -28,17 +34,21 @@
       font-family: Arial, Helvetica, sans-serif;
       transition: background-color 1.2s ease;
     }
+
     body.destroyed {
       background: #fff;
     }
+
     body.destroyed * {
       opacity: 0 !important;
       pointer-events: none !important;
       transition: opacity 1.2s ease !important;
     }
+
     .classic {
-      font: 16px Arial, Helvetica, sans-serif;
+      font: 16px Georgia, "Times New Roman", serif;
     }
+
     .unlock {
       border: 1px solid var(--ink);
       background: #fff;
@@ -47,7 +57,11 @@
       font: 700 16px Arial, Helvetica, sans-serif;
       cursor: pointer;
     }
-    .unlock:hover { background: var(--cream); }
+
+    .unlock:hover {
+      background: var(--cream);
+    }
+
     .app {
       width: 100%;
       min-height: 100vh;
@@ -57,9 +71,13 @@
       opacity: 0;
       animation: appear 0.6s ease forwards;
     }
+
     @keyframes appear {
-      to { opacity: 1; }
+      to {
+        opacity: 1;
+      }
     }
+
     nav {
       height: 72px;
       display: flex;
@@ -70,6 +88,7 @@
       padding: 0 24px;
       border-bottom: 1px solid rgba(233, 231, 239, 0.8);
     }
+
     .brand {
       display: flex;
       align-items: center;
@@ -77,6 +96,7 @@
       font-weight: 800;
       letter-spacing: -0.02em;
     }
+
     .brand-mark {
       width: 28px;
       height: 28px;
@@ -84,6 +104,7 @@
       background: linear-gradient(135deg, var(--purple), var(--pink));
       box-shadow: 0 6px 18px rgba(115, 87, 255, 0.24);
     }
+
     .nav-action {
       border: 1px solid var(--line);
       border-radius: 999px;
@@ -92,11 +113,13 @@
       background: rgba(255, 255, 255, 0.74);
       font-size: 13px;
     }
+
     main {
       max-width: 1120px;
       margin: 0 auto;
       padding: 70px 24px 40px;
     }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -108,6 +131,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
+
     .eyebrow::before {
       content: "";
       width: 7px;
@@ -116,6 +140,7 @@
       background: var(--purple);
       box-shadow: 0 0 0 4px rgba(115, 87, 255, 0.1);
     }
+
     h1 {
       max-width: 760px;
       margin: 0 0 18px;
@@ -123,6 +148,7 @@
       line-height: 0.94;
       letter-spacing: -0.07em;
     }
+
     .lede {
       max-width: 570px;
       margin: 0 0 48px;
@@ -130,6 +156,7 @@
       font-size: 18px;
       line-height: 1.6;
     }
+
     .output-card {
       position: relative;
       min-height: 270px;
@@ -143,6 +170,7 @@
       box-shadow: 0 24px 70px rgba(37, 29, 68, 0.08);
       backdrop-filter: blur(12px);
     }
+
     .card-top {
       display: flex;
       align-items: center;
@@ -150,17 +178,20 @@
       color: var(--muted);
       font-size: 13px;
     }
+
     .status {
       display: flex;
       align-items: center;
       gap: 7px;
     }
+
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #43be78;
     }
+
     #dialogue {
       max-width: 850px;
       margin: 38px 0;
@@ -169,6 +200,7 @@
       letter-spacing: -0.055em;
       overflow-wrap: anywhere;
     }
+
     #refresh {
       align-self: flex-end;
       border: 0;
@@ -180,8 +212,16 @@
       cursor: pointer;
       transition: transform 0.12s ease, background 0.12s ease;
     }
-    #refresh:hover { transform: translateY(-2px); background: var(--purple); }
-    #refresh:active { transform: translateY(0); }
+
+    #refresh:hover {
+      transform: translateY(-2px);
+      background: var(--purple);
+    }
+
+    #refresh:active {
+      transform: translateY(0);
+    }
+
     #refresh.destroy {
       position: fixed;
       z-index: 1000;
@@ -193,79 +233,126 @@
       top: var(--y, 70vh);
       transform: translate(-50%, -50%);
     }
+
     #refresh.destroy:hover {
       transform: translate(-50%, -50%) scale(1.05);
     }
+
     @media (max-width: 640px) {
-      nav { height: 60px; }
-      main { padding-top: 42px; }
-      .lede { margin-bottom: 32px; }
-      .output-card { min-height: 300px; padding: 22px; }
+      nav {
+        height: 60px;
+      }
+
+      main {
+        padding-top: 42px;
+      }
+
+      .lede {
+        margin-bottom: 32px;
+      }
+
+      .output-card {
+        min-height: 300px;
+        padding: 22px;
+      }
     }
   </style>
 </head>
+
 <body>
   <script>
     const REFRESH_COUNT_KEY = "ismycomputeronfire-refresh-count";
     const SLOP_UNLOCKED_KEY = "ismycomputeronfire-slop-unlocked";
     const SLOP_CLICKS_KEY = "ismycomputeronfire-slop-clicks";
     const DESTROYED_KEY = "ismycomputeronfire-destroyed";
-    let refreshCount = Number(localStorage.getItem(REFRESH_COUNT_KEY) || 0) + 1;
+
+    let refreshCount =
+      Number(localStorage.getItem(REFRESH_COUNT_KEY) || 0) + 1;
+
     localStorage.setItem(REFRESH_COUNT_KEY, String(refreshCount));
+
     if (refreshCount >= 11) {
       localStorage.setItem(SLOP_UNLOCKED_KEY, "true");
     }
-    const slopUnlocked = localStorage.getItem(SLOP_UNLOCKED_KEY) === "true";
-    const destroyed = localStorage.getItem(DESTROYED_KEY) === "true";
+
+    const slopUnlocked =
+      localStorage.getItem(SLOP_UNLOCKED_KEY) === "true";
+
+    const destroyed =
+      localStorage.getItem(DESTROYED_KEY) === "true";
+
     function renderClassic() {
       document.body.className = "";
       document.body.innerHTML = "";
       document.body.className = "classic";
-      if (refreshCount === 10) {
-        document.body.textContent = "WOW YOU REALLY NEED TO BE REASSURED ON THIS";
-      } else if (refreshCount < 11) {
-        document.body.textContent = Math.floor(Math.random() * 100) === 0 ? "YES" : "NO";
-        if (slopUnlocked) {
-          showUnlockButton();
-        }
-      } else {
+
+      if (refreshCount >= 11 || slopUnlocked) {
         showUnlockButton();
+      } else {
+        document.body.textContent = "NO";
       }
     }
+
     function showUnlockButton() {
       document.body.textContent = "";
       const button = document.createElement("button");
+
       button.className = "unlock";
       button.textContent = "WAIT DO NOT CLICK THAT";
-      button.addEventListener("click", renderSlop);
+
+      button.addEventListener("click", () => {
+        if (refreshCount < 11 && !slopUnlocked) {
+          return;
+        }
+
+        renderSlop();
+      });
+
       document.body.appendChild(button);
     }
+
     function renderSlop() {
       document.body.className = "";
       document.body.innerHTML = `
         <div class="app">
           <nav>
-            <div class="brand"><span class="brand-mark"></span>SlopLab</div>
+            <div class="brand">
+              <span class="brand-mark"></span>
+              SlopLab
+            </div>
             <div class="nav-action">Personal workspace</div>
           </nav>
+
           <main>
             <div class="eyebrow">Generative confidence engine</div>
             <h1>Answers, at unreasonable scale.</h1>
-            <p class="lede">One click turns uncertainty into a beautifully formatted response from absolutely nowhere.</p>
+            <p class="lede">
+              One click turns uncertainty into a beautifully formatted response
+              from absolutely nowhere.
+            </p>
+
             <section class="output-card" aria-live="polite">
               <div class="card-top">
                 <span>Live output</span>
-                <span class="status"><span class="status-dot"></span>Operational</span>
+                <span class="status">
+                  <span class="status-dot"></span>
+                  Operational
+                </span>
               </div>
+
               <div id="dialogue"></div>
               <button id="refresh" type="button">Refresh</button>
             </section>
           </main>
         </div>
       `;
-      let clicks = Number(localStorage.getItem(SLOP_CLICKS_KEY) || 0);
+
+      let clicks =
+        Number(localStorage.getItem(SLOP_CLICKS_KEY) || 0);
+
       const dialogue = document.getElementById("dialogue");
       const refresh = document.getElementById("refresh");
+
       function setDialogue() {
         if (clicks === 0) {
           dialogue.textContent = "NO";
@@ -281,6 +368,7 @@
             "NOT REALLY",
             "ASK AGAIN"
           ];
+
           dialogue.textContent = filler[clicks - 1];
         } else {
           const dialogueByClick = {
@@ -292,11 +380,16 @@
             15: "WHY.",
             16: "NO. NO MORE WEBSITE FOR YOU."
           };
-          dialogue.textContent = dialogueByClick[clicks] || "NO. NO MORE WEBSITE FOR YOU.";
+
+          dialogue.textContent =
+            dialogueByClick[clicks] ||
+            "NO. NO MORE WEBSITE FOR YOU.";
         }
+
         if (clicks >= 16) {
           refresh.textContent = "Destroy Site?";
           refresh.classList.add("destroy");
+
           refresh.style.setProperty("--x", "50vw");
           refresh.style.setProperty("--y", "70vh");
         } else {
@@ -304,32 +397,47 @@
           refresh.classList.remove("destroy");
         }
       }
+
       setDialogue();
+
       refresh.addEventListener("click", () => {
         if (refresh.classList.contains("destroy")) {
           destroySite();
           return;
         }
+
         clicks += 1;
         localStorage.setItem(SLOP_CLICKS_KEY, String(clicks));
         setDialogue();
       });
-      document.addEventListener("pointermove", event => {
-        if (!refresh.classList.contains("destroy")) return;
-        refresh.style.setProperty("--x", event.clientX + "px");
-        refresh.style.setProperty("--y", event.clientY + "px");
+
+      window.addEventListener("pointermove", event => {
+        if (!refresh.classList.contains("destroy")) {
+          return;
+        }
+
+        refresh.style.left = `${event.clientX}px`;
+        refresh.style.top = `${event.clientY}px`;
       });
     }
+
     function destroySite() {
       localStorage.setItem(DESTROYED_KEY, "true");
       document.body.className = "destroyed";
     }
+
     if (destroyed) {
       document.body.className = "destroyed";
     } else if (slopUnlocked) {
-      const launched = sessionStorage.getItem("ismycomputeronfire-slop-launched");
+      const launched =
+        sessionStorage.getItem("ismycomputeronfire-slop-launched");
+
       if (launched === "true") {
-        sessionStorage.setItem("ismycomputeronfire-slop-launched", "true");
+        sessionStorage.setItem(
+          "ismycomputeronfire-slop-launched",
+          "true"
+        );
+
         renderSlop();
       } else {
         renderClassic();
@@ -337,8 +445,14 @@
     } else {
       renderClassic();
     }
+
     document.querySelectorAll(".unlock").forEach(button => {
-      button.addEventListener("click", () => sessionStorage.setItem("ismycomputeronfire-slop-launched", "true"));
+      button.addEventListener("click", () => {
+        sessionStorage.setItem(
+          "ismycomputeronfire-slop-launched",
+          "true"
+        );
+      });
     });
   </script>
 </body>
