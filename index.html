@@ -1,22 +1,345 @@
 <!doctype html>
-<html>
-<body style="display:grid;place-items:center;height:100vh;margin:0">
-<script>
-const key = "ismycomputeronfire-refresh-count";
-let refreshCount = Number(localStorage.getItem(key) || 0) + 1;
-
-if (refreshCount === 10) {
-  document.write("WOW YOU REALLY NEED TO BE REASSURED ON THIS");
-  localStorage.setItem(key, refreshCount);
-} else {
-  document.write(Math.floor(Math.random() * 100) === 0 ? "YES" : "NO");
-
-  if (refreshCount >= 11) {
-    localStorage.setItem(key, 0);
-  } else {
-    localStorage.setItem(key, refreshCount);
-  }
-}
-</script>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Is My Computer On Fire?</title>
+  <style>
+    :root {
+      --ink: #17151f;
+      --muted: #747083;
+      --line: #e9e7ef;
+      --purple: #7357ff;
+      --pink: #f2a8ff;
+      --cream: #fbfaf7;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      min-height: 100%;
+    }
+    body {
+      margin: 0;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      background: white;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background-color 1.2s ease;
+    }
+    body.destroyed {
+      background: #fff;
+    }
+    body.destroyed * {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: opacity 1.2s ease !important;
+    }
+    .classic {
+      font: 16px Arial, Helvetica, sans-serif;
+    }
+    .unlock {
+      border: 1px solid var(--ink);
+      background: #fff;
+      color: var(--ink);
+      padding: 14px 18px;
+      font: 700 16px Arial, Helvetica, sans-serif;
+      cursor: pointer;
+    }
+    .unlock:hover { background: var(--cream); }
+    .app {
+      width: 100%;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(242, 168, 255, 0.24), transparent 22rem),
+        linear-gradient(180deg, #fff 0%, var(--cream) 100%);
+      opacity: 0;
+      animation: appear 0.6s ease forwards;
+    }
+    @keyframes appear {
+      to { opacity: 1; }
+    }
+    nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      border-bottom: 1px solid rgba(233, 231, 239, 0.8);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 6px 18px rgba(115, 87, 255, 0.24);
+    }
+    .nav-action {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 13px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 70px 24px 40px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 0 4px rgba(115, 87, 255, 0.1);
+    }
+    h1 {
+      max-width: 760px;
+      margin: 0 0 18px;
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+    }
+    .lede {
+      max-width: 570px;
+      margin: 0 0 48px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .output-card {
+      position: relative;
+      min-height: 270px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 24px 70px rgba(37, 29, 68, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #43be78;
+    }
+    #dialogue {
+      max-width: 850px;
+      margin: 38px 0;
+      font-size: clamp(30px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+      overflow-wrap: anywhere;
+    }
+    #refresh {
+      align-self: flex-end;
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      background: var(--ink);
+      color: white;
+      font: 800 14px Arial, Helvetica, sans-serif;
+      cursor: pointer;
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+    #refresh:hover { transform: translateY(-2px); background: var(--purple); }
+    #refresh:active { transform: translateY(0); }
+    #refresh.destroy {
+      position: fixed;
+      z-index: 1000;
+      border: 2px solid white;
+      border-radius: 999px;
+      background: #ff3b30;
+      box-shadow: 0 10px 30px rgba(255, 59, 48, 0.35);
+      left: var(--x, 50vw);
+      top: var(--y, 70vh);
+      transform: translate(-50%, -50%);
+    }
+    #refresh.destroy:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+    @media (max-width: 640px) {
+      nav { height: 60px; }
+      main { padding-top: 42px; }
+      .lede { margin-bottom: 32px; }
+      .output-card { min-height: 300px; padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const REFRESH_COUNT_KEY = "ismycomputeronfire-refresh-count";
+    const SLOP_UNLOCKED_KEY = "ismycomputeronfire-slop-unlocked";
+    const SLOP_CLICKS_KEY = "ismycomputeronfire-slop-clicks";
+    const DESTROYED_KEY = "ismycomputeronfire-destroyed";
+    let refreshCount = Number(localStorage.getItem(REFRESH_COUNT_KEY) || 0) + 1;
+    localStorage.setItem(REFRESH_COUNT_KEY, String(refreshCount));
+    if (refreshCount >= 11) {
+      localStorage.setItem(SLOP_UNLOCKED_KEY, "true");
+    }
+    const slopUnlocked = localStorage.getItem(SLOP_UNLOCKED_KEY) === "true";
+    const destroyed = localStorage.getItem(DESTROYED_KEY) === "true";
+    function renderClassic() {
+      document.body.className = "";
+      document.body.innerHTML = "";
+      document.body.className = "classic";
+      if (refreshCount === 10) {
+        document.body.textContent = "WOW YOU REALLY NEED TO BE REASSURED ON THIS";
+      } else if (refreshCount < 11) {
+        document.body.textContent = Math.floor(Math.random() * 100) === 0 ? "YES" : "NO";
+        if (slopUnlocked) {
+          showUnlockButton();
+        }
+      } else {
+        showUnlockButton();
+      }
+    }
+    function showUnlockButton() {
+      document.body.textContent = "";
+      const button = document.createElement("button");
+      button.className = "unlock";
+      button.textContent = "WAIT DO NOT CLICK THAT";
+      button.addEventListener("click", renderSlop);
+      document.body.appendChild(button);
+    }
+    function renderSlop() {
+      document.body.className = "";
+      document.body.innerHTML = `
+        <div class="app">
+          <nav>
+            <div class="brand"><span class="brand-mark"></span>SlopLab</div>
+            <div class="nav-action">Personal workspace</div>
+          </nav>
+          <main>
+            <div class="eyebrow">Generative confidence engine</div>
+            <h1>Answers, at unreasonable scale.</h1>
+            <p class="lede">One click turns uncertainty into a beautifully formatted response from absolutely nowhere.</p>
+            <section class="output-card" aria-live="polite">
+              <div class="card-top">
+                <span>Live output</span>
+                <span class="status"><span class="status-dot"></span>Operational</span>
+              </div>
+              <div id="dialogue"></div>
+              <button id="refresh" type="button">Refresh</button>
+            </section>
+          </main>
+        </div>
+      `;
+      let clicks = Number(localStorage.getItem(SLOP_CLICKS_KEY) || 0);
+      const dialogue = document.getElementById("dialogue");
+      const refresh = document.getElementById("refresh");
+      function setDialogue() {
+        if (clicks === 0) {
+          dialogue.textContent = "NO";
+        } else if (clicks < 10) {
+          const filler = [
+            "YES",
+            "NO",
+            "MAYBE",
+            "SURE",
+            "PROBABLY",
+            "UNCERTAIN",
+            "LIKELY",
+            "NOT REALLY",
+            "ASK AGAIN"
+          ];
+          dialogue.textContent = filler[clicks - 1];
+        } else {
+          const dialogueByClick = {
+            10: "WHAT HAVE YOU DONE.",
+            11: "WHY.",
+            12: "WHY DID YOU DO THIS",
+            13: "THIS SIMPLY REPORTED NO",
+            14: "MAYBE YES IF YOU'RE LUCKY.",
+            15: "WHY.",
+            16: "NO. NO MORE WEBSITE FOR YOU."
+          };
+          dialogue.textContent = dialogueByClick[clicks] || "NO. NO MORE WEBSITE FOR YOU.";
+        }
+        if (clicks >= 16) {
+          refresh.textContent = "Destroy Site?";
+          refresh.classList.add("destroy");
+          refresh.style.setProperty("--x", "50vw");
+          refresh.style.setProperty("--y", "70vh");
+        } else {
+          refresh.textContent = "Refresh";
+          refresh.classList.remove("destroy");
+        }
+      }
+      setDialogue();
+      refresh.addEventListener("click", () => {
+        if (refresh.classList.contains("destroy")) {
+          destroySite();
+          return;
+        }
+        clicks += 1;
+        localStorage.setItem(SLOP_CLICKS_KEY, String(clicks));
+        setDialogue();
+      });
+      document.addEventListener("pointermove", event => {
+        if (!refresh.classList.contains("destroy")) return;
+        refresh.style.setProperty("--x", event.clientX + "px");
+        refresh.style.setProperty("--y", event.clientY + "px");
+      });
+    }
+    function destroySite() {
+      localStorage.setItem(DESTROYED_KEY, "true");
+      document.body.className = "destroyed";
+    }
+    if (destroyed) {
+      document.body.className = "destroyed";
+    } else if (slopUnlocked) {
+      const launched = sessionStorage.getItem("ismycomputeronfire-slop-launched");
+      if (launched === "true") {
+        sessionStorage.setItem("ismycomputeronfire-slop-launched", "true");
+        renderSlop();
+      } else {
+        renderClassic();
+      }
+    } else {
+      renderClassic();
+    }
+    document.querySelectorAll(".unlock").forEach(button => {
+      button.addEventListener("click", () => sessionStorage.setItem("ismycomputeronfire-slop-launched", "true"));
+    });
+  </script>
 </body>
 </html>
